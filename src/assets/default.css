@@ -1,0 +1,145 @@
+/* default.css - external CSS for personal home page */
+
+/* Color palette: https://coolors.co/palette/ff9286-fbb3a5-ffc5ba-ffe5e5-f4b7c6-ff92b1-fe7295 */
+:root {
+  --bg: #ffe5e5;
+  --ink: #2e2a2c;
+  --muted: #4b5563;
+  --brand: #ff92b1;
+  --brand-ink: #fe7295;
+  --card: #ffffff;
+  --border: #f4b7c6;
+  --header-bg: #ffc5ba;
+  --footer-bg: #f3dcd7;
+
+  --font-body: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-heading: "Trebuchet MS", Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* Global Styles */
+html, body {
+  margin: 1px;
+  padding: 1rem 2rem;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+.wrap {
+  width: min(90%, 960px);
+  margin: 0 auto;
+}
+
+header, main, footer {
+  padding: 1.25rem 0;
+}
+
+/* Header */
+header {
+  background: var(--header-bg);
+  border-bottom: 3px solid var(--border);
+  text-align: center;
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 2.2vw + 1rem, 2.4rem);
+  line-height: 1.25;
+  margin: 0 0 .25rem;
+}
+
+header .tagline {
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+/* Headings */
+h3 {
+  font-family: var(--font-heading);
+  line-height: 1.25;
+  margin: 0 0 .25rem;
+}
+
+h2 {
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 .25rem;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-bottom: 1rem;
+}
+
+/* Images */
+.headshot {
+  width: 150px;
+  height: auto;
+  border-radius: 50%;
+  display: block;
+  margin: 0.5rem auto;
+}
+
+/* Links */
+a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 500;
+}
+a:hover, a:focus {
+  color: var(--brand-ink);
+  text-decoration: underline;
+  outline: none;
+}
+
+/* Footer */
+footer {
+  border-top: 3px solid var(--border);
+  background: var(--footer-bg);
+  padding-top: 1rem;
+  text-align: center;
+}
+
+footer p, footer small {
+  margin: 0.25rem 0;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.sep {
+  opacity: 0.7;
+  padding: 0 0.25rem;
+}
+
+/* Accessibility */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 0.75rem;
+  background: #fff;
+  border: 1px dashed var(--brand);
+  border-radius: 8px;
+}
