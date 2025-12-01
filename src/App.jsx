@@ -1,11 +1,11 @@
-import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import Introduction from './pages/Introduction'
-import Contract from './pages/Contract'
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Introduction from "./pages/Introduction";
+import Contract from "./pages/Contract";
 import Students from "./pages/Students";
-import Header from './components/Header'
-import Footer from './components/Footer'
-
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (
@@ -19,8 +19,9 @@ function App() {
       </Routes>
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+
 
