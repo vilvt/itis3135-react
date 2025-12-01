@@ -9,6 +9,7 @@ export default function Header() {
         <Link to="/">Home</Link> ~{" "}
         <Link to="/introduction">Introduction</Link> ~{" "}
         <Link to="/contract">Contract</Link>
+        <Link to="/students">Students</Link>
       </nav>
 
       {/* Optional: Secondary Nav (can keep it for consistency) */}
