@@ -5,7 +5,7 @@ export default function Students() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://dvonb.xyz/api/2025-fall/itis-3135/students?full=1")
+    fetch("https://dvonb.xyz/api/2025-fall/itis-3135/students")
       .then((response) => response.json())
       .then((data) => {
         setStudents(data);
