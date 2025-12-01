@@ -5,8 +5,8 @@ export default function Students() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://dvonb.xyz/api/2025-fall/itis-3135/students")
-      .then((response) => response.json())
+    fetch("/students.json")
+      .then((res) => res.json())
       .then((data) => {
         setStudents(data);
         setLoading(false);
@@ -35,13 +35,19 @@ export default function Students() {
           }}
         >
           <h2>{student.name}</h2>
-          <p><strong>Email:</strong> {student.email}</p>
-          <p><strong>Major:</strong> {student.major}</p>
-          <p><strong>Description:</strong> {student.description}</p>
+          <p>
+            <strong>Email:</strong> {student.email}
+          </p>
+          <p>
+            <strong>Major:</strong> {student.major}
+          </p>
+          <p>
+            <strong>Description:</strong> {student.description}
+          </p>
 
           {student.icon && (
-            <img 
-              src={student.icon} 
+            <img
+              src={student.icon}
               alt="student icon"
               width="100"
               style={{ marginTop: "10px" }}
@@ -52,3 +58,4 @@ export default function Students() {
     </main>
   );
 }
+
