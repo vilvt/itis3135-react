@@ -6,7 +6,7 @@ export default function Students() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/students.json")
+    fetch("public/students.json")
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
