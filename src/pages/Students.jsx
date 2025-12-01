@@ -6,15 +6,13 @@ export default function Students() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("students.json")
+    fetch("/students.json")
       .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
       })
       .then((data) => {
-        setStudents(data);
+        setStudents(data); // data is an array
         setLoading(false);
       })
       .catch((err) => {
@@ -26,17 +24,22 @@ export default function Students() {
 
   if (loading) return <p>Loading students...</p>;
   if (error) return <p>{error}</p>;
+  if (students.length === 0) return <p>No students found.</p>;
 
   return (
     <main style={{ padding: "1rem" }}>
       <h1>Student Introductions</h1>
 
-      {students.length === 0 ? (
-        <p>No students found.</p>
-      ) : (
-        students.map((student) => (
+      {students.map((student) => {
+        const fullName =
+          student.name.preferred ||
+          student.name.first + " " +
+          (student.name.middleInitial ? student.name.middleInitial + " " : "") +
+          student.name.last;
+
+        return (
           <div
-            key={student.email || student.name}
+            key={student.prefix}
             style={{
               border: "1px solid #ccc",
               borderRadius: "8px",
@@ -45,25 +48,53 @@ export default function Students() {
               background: "#fafafa",
             }}
           >
-            <h2>{student.name || "Unnamed Student"}</h2>
-            {student.email && <p><strong>Email:</strong> {student.email}</p>}
-            {student.major && <p><strong>Major:</strong> {student.major}</p>}
-            {student.description && <p><strong>Description:</strong> {student.description}</p>}
+            <h2>{fullName}</h2>
 
-            {student.icon ? (
+            {student.prefix && <p><strong>Email:</strong> {student.prefix}@uncc.edu</p>}
+
+            {student.backgrounds?.personal && <p><strong>Personal:</strong> {student.backgrounds.personal}</p>}
+            {student.backgrounds?.academic && <p><strong>Academic:</strong> {student.backgrounds.academic}</p>}
+            {student.backgrounds?.professional && <p><strong>Professional:</strong> {student.backgrounds.professional}</p>}
+
+            {student.personalStatement && <p><strong>Statement:</strong> {student.personalStatement}</p>}
+
+            {student.courses?.length > 0 && (
+              <div>
+                <strong>Courses:</strong>
+                <ul>
+                  {student.courses.map((course, index) => (
+                    <li key={index}>
+                      {course.dept} {course.num} - {course.name} ({course.reason})
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {student.funFact && <p><strong>Fun Fact:</strong> {student.funFact}</p>}
+
+            {student.media?.hasImage && student.media.src && (
               <img
-                src={student.icon}
-                alt={`${student.name || "student"} icon`}
+                src={student.media.src} // must exist in public folder
+                alt={`${student.name.first} ${student.name.last}`}
                 width="100"
                 style={{ marginTop: "10px" }}
               />
-            ) : null}
+            )}
+
+            {student.quote?.text && (
+              <blockquote>
+                "{student.quote.text}" — {student.quote.author || "Unknown"}
+              </blockquote>
+            )}
           </div>
-        ))
-      )}
+        );
+      })}
     </main>
   );
 }
+
+
 
 
 
