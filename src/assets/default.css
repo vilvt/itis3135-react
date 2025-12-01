@@ -13,6 +13,12 @@
   --font-heading: "Trebuchet MS", Verdana, Geneva, Tahoma, sans-serif;
 }
 
+main ul, main ol {
+  text-align: left;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
 /* Global Styles */
 html, body {
   margin: 1px;
