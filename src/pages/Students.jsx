@@ -145,7 +145,7 @@ export default function Students() {
   {/* Courses */}
   {current.courses?.length > 0 && (
     <div>
-      <strong>Courses:</strong>
+      <strong>Courses & Reason Why Taking:</strong>
       <ul>
         {current.courses.map((c, i) => (
           <li key={i}>
@@ -192,13 +192,13 @@ export default function Students() {
   {current.links && (
     <p>
       {[
-        { name: "CLT Web", url: current.links.charlotte },
-        { name: "GitHub.io", url: current.links.githubio },
-        { name: "GitHub", url: current.links.github },
-        { name: "ITIS 3135", url: current.links.itis3135 },
-        { name: "freeCodeCamp", url: current.links.freecodecamp },
-        { name: "Codecademy", url: current.links.codecademy },
-        { name: "LinkedIn", url: current.links.linkedin },
+        { name: " CLT Web", url: current.links.charlotte },
+        { name: " GitHub.io", url: current.links.githubio },
+        { name: " GitHub", url: current.links.github },
+        { name: " ITIS 3135", url: current.links.itis3135 },
+        { name: " freeCodeCamp", url: current.links.freecodecamp },
+        { name: " Codecademy", url: current.links.codecademy },
+        { name: " LinkedIn", url: current.links.linkedin },
       ]
         .filter((l) => l.url)
         .map((l, i) => (

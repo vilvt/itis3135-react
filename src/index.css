@@ -42,7 +42,7 @@ header, main, footer {
 header {
   background: var(--header-bg);
   border-bottom: 3px solid var(--border);
-  text-align: center;
+  text-align: left;
 }
 
 h1 {
