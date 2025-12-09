@@ -181,33 +181,36 @@ export default function Students() {
 
   {/* Quote */}
   {current.quote?.text && (
-    <blockquote>
-      "{current.quote.text}"
-      {current.quote.author && <br />}
-      {current.quote.author && <>- {current.quote.author}</>}
-    </blockquote>
+    <div style={{ textAlign: "center", marginTop: "1rem", marginBottom: "1rem" }}>
+      <blockquote style={{ fontStyle: "italic", margin: 0 }}>
+        "{current.quote.text}"
+        {current.quote.author && <br />}
+        {current.quote.author && <>- {current.quote.author}</>}
+      </blockquote>
+    </div>
   )}
 
   {/* Links */}
   {current.links && (
-    <p>
-      {[
-        { name: " CLT Web", url: current.links.charlotte },
-        { name: " GitHub.io", url: current.links.githubio },
-        { name: " GitHub", url: current.links.github },
-        { name: " ITIS 3135", url: current.links.itis3135 },
-        { name: " freeCodeCamp", url: current.links.freecodecamp },
-        { name: " Codecademy", url: current.links.codecademy },
-        { name: " LinkedIn", url: current.links.linkedin },
-      ]
-        .filter((l) => l.url)
-        .map((l, i) => (
-          <span key={i}>
-            <a href={l.url}>{l.name}</a> {i < 6 ? "|" : ""}
-          </span>
-        ))}
-    </p>
-  )}
+   <div style={{ textAlign: "center", marginTop: "0.5rem" }}>
+    {[
+      { name: " CLT Web", url: current.links.charlotte },
+      { name: " GitHub.io", url: current.links.githubio },
+      { name: " GitHub", url: current.links.github },
+      { name: " ITIS 3135", url: current.links.itis3135 },
+      { name: " freeCodeCamp", url: current.links.freecodecamp },
+      { name: " Codecademy", url: current.links.codecademy },
+      { name: " LinkedIn", url: current.links.linkedin },
+    ]
+      .filter((l) => l.url)
+      .map((l, i, arr) => (
+        <span key={i}>
+          <a href={l.url}>{l.name}</a>
+          {i < arr.length - 1 && " | "}
+        </span>
+      ))}
+  </div>
+)}
 </div>
 
         </>
