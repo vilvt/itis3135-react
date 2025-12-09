@@ -92,130 +92,124 @@ export default function Students() {
           </button>
 
           <div className="card">
-            {show.name && current.name && (
-              <h2>
-                {current.name.preferred ||
-                  current.name.first + " " + current.name.last}
-              </h2>
-            )}
+  {/* Header */}
+  {current.name && (
+    <h2>
+      {current.name.preferred || current.name.first + " " + current.name.last}{" "}
+      {current.mascot && <>| {current.mascot}</>}
+    </h2>
+  )}
 
-            {show.mascot && current.mascot && (
-              <p>
-                <strong>Mascot:</strong> {current.mascot}
-              </p>
-            )}
+  {/* Image */}
+  {current.media?.src && (
+    <>
+      <img src={current.media.src} alt="student" className="headshot" />
+      {current.media.caption && (
+        <p style={{ fontStyle: "italic", textAlign: "center" }}>
+          {current.media.caption}
+        </p>
+      )}
+    </>
+  )}
 
-            {show.image && current.media?.src && (
-              <img
-                src={current.media.src}
-                alt="student"
-                className="headshot"
-              />
-            )}
+  {/* Personal Statement */}
+  {current.personalStatement && <p>{current.personalStatement}</p>}
 
-            {show.statement && current.personalStatement && (
-              <p>
-                <strong>Statement:</strong> {current.personalStatement}
-              </p>
-            )}
+  {/* Backgrounds */}
+  {current.backgrounds && (
+    <>
+      {current.backgrounds.personal && (
+        <p>
+          <strong>Personal Background:</strong> {current.backgrounds.personal}
+        </p>
+      )}
+      {current.backgrounds.professional && (
+        <p>
+          <strong>Professional Background:</strong>{" "}
+          {current.backgrounds.professional}
+        </p>
+      )}
+      {current.backgrounds.academic && (
+        <p>
+          <strong>Academic Background:</strong> {current.backgrounds.academic}
+        </p>
+      )}
+      {current.backgrounds.subject && (
+        <p>
+          <strong>Subject Background:</strong> {current.backgrounds.subject}
+        </p>
+      )}
+    </>
+  )}
 
-            {show.backgrounds && current.backgrounds && (
-              <>
-                {current.backgrounds.personal && (
-                  <p>
-                    <strong>Personal:</strong> {current.backgrounds.personal}
-                  </p>
-                )}
-                {current.backgrounds.academic && (
-                  <p>
-                    <strong>Academic:</strong> {current.backgrounds.academic}
-                  </p>
-                )}
-                {current.backgrounds.professional && (
-                  <p>
-                    <strong>Professional:</strong>{" "}
-                    {current.backgrounds.professional}
-                  </p>
-                )}
-              </>
-            )}
+  {/* Courses */}
+  {current.courses?.length > 0 && (
+    <div>
+      <strong>Courses:</strong>
+      <ul>
+        {current.courses.map((c, i) => (
+          <li key={i}>
+            {c.dept} {c.num} - {c.name} {c.reason && `- ${c.reason}`}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
 
-            {show.classes && current.courses?.length > 0 && (
-              <div>
-                <strong>Classes:</strong>
-                <ul>
-                  {current.courses.map((c, i) => (
-                    <li key={i}>
-                      {c.dept} {c.num} — {c.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+  {/* Computer Info */}
+  {current.platform && (
+    <>
+      {current.platform.device && (
+        <p>
+          <strong>Computer Type:</strong> {current.platform.device}
+        </p>
+      )}
+      {current.platform.os && (
+        <p>
+          <strong>Operating System:</strong> {current.platform.os}
+        </p>
+      )}
+    </>
+  )}
 
-            {show.extra && (
-              <>
-                {current.funFact && (
-                  <p>
-                    <strong>Fun Fact:</strong> {current.funFact}
-                  </p>
-                )}
-                {current.platform && (
-                  <p>
-                    <strong>Computer:</strong> {current.platform.device} (
-                    {current.platform.os})
-                  </p>
-                )}
-              </>
-            )}
+  {/* Fun Fact */}
+  {current.funFact && (
+    <p>
+      <strong>Fun Fact:</strong> {current.funFact}
+    </p>
+  )}
 
-            {show.quote && current.quote?.text && (
-              <blockquote>"{current.quote.text}"</blockquote>
-            )}
+  {/* Quote */}
+  {current.quote?.text && (
+    <blockquote>
+      "{current.quote.text}"
+      {current.quote.author && <br />}
+      {current.quote.author && <>- {current.quote.author}</>}
+    </blockquote>
+  )}
 
-            {show.links && current.links && (
-              <div>
-                <strong>Links:</strong>
-                <ul>
-                  {current.links.charlotte && (
-                    <li>
-                      <a href={current.links.charlotte}>CLT Webpage</a>
-                    </li>
-                  )}
-                  {current.links.github && (
-                    <li>
-                      <a href={current.links.github}>GitHub</a>
-                    </li>
-                  )}
-                  {current.links.githubio && (
-                    <li>
-                      <a href={current.links.githubio}>GitHub Pages</a>
-                    </li>
-                  )}
-                  {current.links.itis3135 && (
-                    <li>
-                      <a href={current.links.itis3135}>ITIS 3135 Page</a>
-                    </li>
-                  )}
-                  {current.links.freecodecamp && (
-                    <li>
-                      <a href={current.links.freecodecamp}>FreeCodeCamp</a>
-                    </li>
-                  )}
-                  {current.links.codecademy && (
-                    <li>
-                      <a href={current.links.codecademy}>Codecademy</a>
-                    </li>
-                  )}
-                  {current.links.linkedin && (
-                    <li>
-                      <a href={current.links.linkedin}>LinkedIn</a>
-                    </li>
-                  )}
-                </ul>
-              </div>
-            )}
-          </div>
+  {/* Links */}
+  {current.links && (
+    <p>
+      {[
+        { name: "CLT Web", url: current.links.charlotte },
+        { name: "GitHub.io", url: current.links.githubio },
+        { name: "GitHub", url: current.links.github },
+        { name: "ITIS 3135", url: current.links.itis3135 },
+        { name: "freeCodeCamp", url: current.links.freecodecamp },
+        { name: "Codecademy", url: current.links.codecademy },
+        { name: "LinkedIn", url: current.links.linkedin },
+      ]
+        .filter((l) => l.url)
+        .map((l, i) => (
+          <span key={i}>
+            <a href={l.url}>{l.name}</a> {i < 6 ? "|" : ""}
+          </span>
+        ))}
+    </p>
+  )}
+</div>
+
         </>
       )}
 
