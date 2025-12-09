@@ -3,96 +3,227 @@ import { useEffect, useState } from "react";
 export default function Students() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [index, setIndex] = useState(0);
+
+  // Checkbox state
+  const [show, setShow] = useState({
+    name: true,
+    mascot: true,
+    image: true,
+    statement: true,
+    backgrounds: true,
+    classes: true,
+    extra: true,
+    quote: true,
+    links: true,
+  });
 
   useEffect(() => {
     fetch("/students.json")
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
-        setStudents(data); // data is an array
+        setStudents(data);
         setLoading(false);
       })
-      .catch((err) => {
-        console.error("Error loading students:", err);
-        setError("Failed to load student data.");
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Loading students...</p>;
-  if (error) return <p>{error}</p>;
-  if (students.length === 0) return <p>No students found.</p>;
+  if (loading) return <p>Loading...</p>;
+
+  // Search by first or last name
+  const filtered = students.filter((s) => {
+    const first = s.name?.first?.toLowerCase() || "";
+    const last = s.name?.last?.toLowerCase() || "";
+    const full = first + " " + last;
+    return full.includes(searchTerm.toLowerCase());
+  });
+
+  // Slideshow student
+  const current = filtered[index] || null;
+
+  const next = () => setIndex((prev) => (prev + 1) % filtered.length);
+  const prev = () =>
+    setIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
 
   return (
-    <main style={{ padding: "1rem" }}>
-      <h1>Student Introductions</h1>
+    <main className="wrap">
+      <h1>Student Viewer</h1>
 
-      {students.map((student) => {
-        const fullName =
-          student.name.preferred ||
-          student.name.first + " " +
-          (student.name.middleInitial ? student.name.middleInitial + " " : "") +
-          student.name.last;
+      {/* Search */}
+      <input
+        type="text"
+        placeholder="Search by name..."
+        value={searchTerm}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setIndex(0);
+        }}
+        style={{ padding: "0.5rem", width: "100%", maxWidth: "400px" }}
+      />
 
-        return (
-          <div
-            key={student.prefix}
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              padding: "1rem",
-              marginBottom: "1rem",
-              background: "#fafafa",
-            }}
-          >
-            <h2>{fullName}</h2>
+      {/* Counter */}
+      <p>
+        <strong>{filtered.length}</strong> student(s) found.
+      </p>
 
-            {student.prefix && <p><strong>Email:</strong> {student.prefix}@uncc.edu</p>}
+      {/* Checkboxes */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+        {Object.keys(show).map((key) => (
+          <label key={key}>
+            <input
+              type="checkbox"
+              checked={show[key]}
+              onChange={() => setShow({ ...show, [key]: !show[key] })}
+            />
+            {" " + key.charAt(0).toUpperCase() + key.slice(1)}
+          </label>
+        ))}
+      </div>
 
-            {student.backgrounds?.personal && <p><strong>Personal:</strong> {student.backgrounds.personal}</p>}
-            {student.backgrounds?.academic && <p><strong>Academic:</strong> {student.backgrounds.academic}</p>}
-            {student.backgrounds?.professional && <p><strong>Professional:</strong> {student.backgrounds.professional}</p>}
+      <hr />
 
-            {student.personalStatement && <p><strong>Statement:</strong> {student.personalStatement}</p>}
+      {/* Slideshow Controls */}
+      {filtered.length > 0 && (
+        <>
+          <button onClick={prev}>Previous</button>
+          <button onClick={next} style={{ marginLeft: "1rem" }}>
+            Next
+          </button>
 
-            {student.courses?.length > 0 && (
+          <div className="card">
+            {show.name && current.name && (
+              <h2>
+                {current.name.preferred ||
+                  current.name.first + " " + current.name.last}
+              </h2>
+            )}
+
+            {show.mascot && current.mascot && (
+              <p>
+                <strong>Mascot:</strong> {current.mascot}
+              </p>
+            )}
+
+            {show.image && current.media?.src && (
+              <img
+                src={current.media.src}
+                alt="student"
+                className="headshot"
+              />
+            )}
+
+            {show.statement && current.personalStatement && (
+              <p>
+                <strong>Statement:</strong> {current.personalStatement}
+              </p>
+            )}
+
+            {show.backgrounds && current.backgrounds && (
+              <>
+                {current.backgrounds.personal && (
+                  <p>
+                    <strong>Personal:</strong> {current.backgrounds.personal}
+                  </p>
+                )}
+                {current.backgrounds.academic && (
+                  <p>
+                    <strong>Academic:</strong> {current.backgrounds.academic}
+                  </p>
+                )}
+                {current.backgrounds.professional && (
+                  <p>
+                    <strong>Professional:</strong>{" "}
+                    {current.backgrounds.professional}
+                  </p>
+                )}
+              </>
+            )}
+
+            {show.classes && current.courses?.length > 0 && (
               <div>
-                <strong>Courses:</strong>
+                <strong>Classes:</strong>
                 <ul>
-                  {student.courses.map((course, index) => (
-                    <li key={index}>
-                      {course.dept} {course.num} - {course.name} ({course.reason})
+                  {current.courses.map((c, i) => (
+                    <li key={i}>
+                      {c.dept} {c.num} — {c.name}
                     </li>
                   ))}
                 </ul>
               </div>
             )}
 
-            {student.funFact && <p><strong>Fun Fact:</strong> {student.funFact}</p>}
-
-            {student.media?.hasImage && student.media.src && (
-              <img
-                src={student.media.src} // must exist in public folder
-                alt={`${student.name.first} ${student.name.last}`}
-                width="100"
-                style={{ marginTop: "10px" }}
-              />
+            {show.extra && (
+              <>
+                {current.funFact && (
+                  <p>
+                    <strong>Fun Fact:</strong> {current.funFact}
+                  </p>
+                )}
+                {current.platform && (
+                  <p>
+                    <strong>Computer:</strong> {current.platform.device} (
+                    {current.platform.os})
+                  </p>
+                )}
+              </>
             )}
 
-            {student.quote?.text && (
-              <blockquote>
-                "{student.quote.text}" — {student.quote.author || "Unknown"}
-              </blockquote>
+            {show.quote && current.quote?.text && (
+              <blockquote>"{current.quote.text}"</blockquote>
+            )}
+
+            {show.links && current.links && (
+              <div>
+                <strong>Links:</strong>
+                <ul>
+                  {current.links.charlotte && (
+                    <li>
+                      <a href={current.links.charlotte}>CLT Webpage</a>
+                    </li>
+                  )}
+                  {current.links.github && (
+                    <li>
+                      <a href={current.links.github}>GitHub</a>
+                    </li>
+                  )}
+                  {current.links.githubio && (
+                    <li>
+                      <a href={current.links.githubio}>GitHub Pages</a>
+                    </li>
+                  )}
+                  {current.links.itis3135 && (
+                    <li>
+                      <a href={current.links.itis3135}>ITIS 3135 Page</a>
+                    </li>
+                  )}
+                  {current.links.freecodecamp && (
+                    <li>
+                      <a href={current.links.freecodecamp}>FreeCodeCamp</a>
+                    </li>
+                  )}
+                  {current.links.codecademy && (
+                    <li>
+                      <a href={current.links.codecademy}>Codecademy</a>
+                    </li>
+                  )}
+                  {current.links.linkedin && (
+                    <li>
+                      <a href={current.links.linkedin}>LinkedIn</a>
+                    </li>
+                  )}
+                </ul>
+              </div>
             )}
           </div>
-        );
-      })}
+        </>
+      )}
+
+      {filtered.length === 0 && <p>No students match your search.</p>}
     </main>
   );
 }
+
 
 
 
