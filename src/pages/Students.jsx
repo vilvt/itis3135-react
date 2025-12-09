@@ -93,15 +93,15 @@ export default function Students() {
 
           <div className="card">
   {/* Header */}
-  {current.name && (
+  {show.name && current.name && (
     <h2>
       {current.name.preferred || current.name.first + " " + current.name.last}{" "}
-      {current.mascot && <>| {current.mascot}</>}
+      {show.mascot && current.mascot && <>| {current.mascot}</>}
     </h2>
   )}
 
   {/* Image */}
-  {current.media?.src && (
+  {show.image && current.media?.src && (
     <>
       <img src={current.media.src} alt="student" className="headshot" />
       {current.media.caption && (
@@ -113,10 +113,10 @@ export default function Students() {
   )}
 
   {/* Personal Statement */}
-  {current.personalStatement && <p>{current.personalStatement}</p>}
+  {show.personalStatement && current.personalStatement && <p>{current.personalStatement}</p>}
 
   {/* Backgrounds */}
-  {current.backgrounds && (
+  {show.backgrounds && current.backgrounds && (
     <>
       {current.backgrounds.personal && (
         <p>
@@ -143,7 +143,7 @@ export default function Students() {
   )}
 
   {/* Courses */}
-  {current.courses?.length > 0 && (
+  {show.classes && current.courses?.length > 0 && (
     <div>
       <strong>Courses & Reason Why Taking:</strong>
       <ul>
@@ -156,31 +156,29 @@ export default function Students() {
     </div>
   )}
 
-  {/* Computer Info */}
-  {current.platform && (
+  {/* Computer Info / Fun Fact */}
+  {show.extra && (
     <>
-      {current.platform.device && (
+      {current.platform?.device && (
         <p>
           <strong>Computer Type:</strong> {current.platform.device}
         </p>
       )}
-      {current.platform.os && (
+      {current.platform?.os && (
         <p>
           <strong>Operating System:</strong> {current.platform.os}
+        </p>
+      )}
+      {current.funFact && (
+        <p>
+          <strong>Fun Fact:</strong> {current.funFact}
         </p>
       )}
     </>
   )}
 
-  {/* Fun Fact */}
-  {current.funFact && (
-    <p>
-      <strong>Fun Fact:</strong> {current.funFact}
-    </p>
-  )}
-
   {/* Quote */}
-  {current.quote?.text && (
+  {show.quote && current.quote?.text && (
     <div style={{ textAlign: "center", marginTop: "1rem", marginBottom: "1rem" }}>
       <blockquote style={{ fontStyle: "italic", margin: 0 }}>
         "{current.quote.text}"
@@ -191,7 +189,7 @@ export default function Students() {
   )}
 
   {/* Links */}
-  {current.links && (
+  {show.links && current.links && (
    <div style={{ textAlign: "center", marginTop: "0.5rem" }}>
     {[
       { name: " CLT Web", url: current.links.charlotte },
