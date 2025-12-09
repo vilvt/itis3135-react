@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+header {
+  background: var(--header-bg);
+  border-bottom: 3px solid var(--border);
+  text-align: center;
+}
